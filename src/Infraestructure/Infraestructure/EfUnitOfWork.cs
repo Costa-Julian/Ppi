@@ -9,14 +9,14 @@ using System.Threading.Tasks;
 
 namespace Infraestructure
 {
-    internal class EfUnitOfWork : IUnitOfWork, IAsyncDisposable
+    public class EfUnitOfWork : IUnitOfWork
     {
         private readonly EfAppDbContext _appDbContext;
-        private IDbContextTransaction? _currentTx;
-        public async ValueTask DisposeAsync()
+
+        public EfUnitOfWork(EfAppDbContext appDbContext)
         {
-            if (_currentTx is not null)
-                await _currentTx.DisposeAsync();
+            _appDbContext = appDbContext;
+         
         }
 
         public async Task ExecuteInTransactionAsync(Func<CancellationToken, Task> action, CancellationToken ct = default)

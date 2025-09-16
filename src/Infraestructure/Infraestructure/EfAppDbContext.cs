@@ -11,18 +11,48 @@ namespace Infraestructure
 {
     public class EfAppDbContext(DbContextOptions<EfAppDbContext> options) : DbContext(options)
     {
-        public DbSet<Orden> ordens => Set<Orden>();
-        public DbSet<Activo> activos => Set<Activo>();
-        public DbSet<Estado> estado => Set<Estado>();
+        public DbSet<Orden> Ordenes => Set<Orden>();
+        public DbSet<Activo> Activos => Set<Activo>();
+        public DbSet<Estado> Estados => Set<Estado>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Orden>(b =>
-            {
-                b.ToTable("Ordenes");
-                b.HasKey(o => o.Id);
-                b.Property(o => o.Id).ValueGeneratedOnAdd();
-            });
+            var o = modelBuilder.Entity<Orden>();
+            o.ToTable("Ordenes");
+            o.HasKey(x => x.Id);
+            o.Property(x => x.Id).ValueGeneratedOnAdd();
+
+            modelBuilder.Entity<Estado>().ToTable("Estados");
+
+            var a = modelBuilder.Entity<Activo>();
+            a.ToTable("Activos");
+            a.HasKey(x => x.Id);
+            a.Property(x => x.Id).ValueGeneratedOnAdd();
+
+            a.Property(x => x.Ticker)
+             .HasColumnName("Ticker")
+             .IsRequired().HasMaxLength(32);
+
+            a.Property(x => x.Nombre)
+             .HasColumnName("Nombre")
+             .IsRequired().HasMaxLength(128);
+
+            a.Ignore(x => x.TipoActivo);            
+
+            a.HasDiscriminator<int>("TipoActivo")
+             .HasValue<Activo>(0)
+             .HasValue<Accion>(1)
+             .HasValue<Bono>(2)
+             .HasValue<Fci>(3);
+            //o.HasOne(x => x.Activo)
+            // .WithMany()             
+            // .HasForeignKey(x => x.Ticker)
+            // .OnDelete(DeleteBehavior.Restrict);
+
+            //o.HasOne(x => x.Estado)
+            //  .WithMany()
+            // .HasForeignKey(x => x.EstadoId)
+            // .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

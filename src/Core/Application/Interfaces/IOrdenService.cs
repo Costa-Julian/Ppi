@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace Application.Interfaces
 {
-    internal interface IOrdenService
+    public interface IOrdenService
     {
-        Task<int> CreateOrderAsynck(DtoCreateOrden dtoCreateOrden, CancellationToken ct);
+        Task<int> CreateOrderAsynck(OrdenRequest Or, CancellationToken ct);
 
     }
 }

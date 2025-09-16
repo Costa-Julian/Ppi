@@ -8,7 +8,8 @@ namespace Domain
 {
     public class Fci : Activo
     {
-        public Fci(string ticker, string nombre, decimal precioUnitarios) : base(ticker, nombre, precioUnitarios)
+        public Fci() { }
+        public Fci(string ticker, string nombre, decimal PrecioUnitario) : base(ticker, nombre, PrecioUnitario)
         {
             this.TipoActivo = 3;
         }

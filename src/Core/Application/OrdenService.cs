@@ -15,21 +15,30 @@ namespace Application
         private readonly IActivoService _activoService;
         private readonly CalculoOrdenFactory _calculatorFactory;
         private readonly IUnitOfWork _unitOfWork;
-        public  async Task<int> CreateOrderAsynck(DtoCreateOrden dtoCreateOrden, CancellationToken ct)
+
+        public OrdenService(IOrdenRepository ordenRepository, IActivoService activoService, CalculoOrdenFactory calculatorFactory, IUnitOfWork unitOfWork)
+        {
+            _ordenRepository = ordenRepository;
+            _activoService = activoService;
+            _calculatorFactory = calculatorFactory;
+            _unitOfWork = unitOfWork;
+        }
+
+        public  async Task<int> CreateOrderAsynck(OrdenRequest Or, CancellationToken ct)
         {
             Orden? orden = null;
 
             await _unitOfWork.ExecuteInTransactionAsync(async cancelationToken =>
             {
-                Activo activo =  _activoService.GetByTickerAsync(dtoCreateOrden.NombreActivo, cancelationToken)
+                Activo activo =  _activoService.GetByTickerAsync(Or.NombreActivo, cancelationToken)
                 ?? throw new KeyNotFoundException("Activo no encontrado");
                 var modoCalculoTotal = _calculatorFactory.Resolve(activo);
 
-                if (activo.TipoActivo != 1) { activo.PrecioUnitarios = dtoCreateOrden.Precio; }
+                if (activo.TipoActivo != 1) { activo.PrecioUnitario = (decimal)Or.Precio; }
 
-                var total = modoCalculoTotal.CalculoTotal(activo, dtoCreateOrden.Cantidad);
+                var total = modoCalculoTotal.CalculoTotal(activo, Or.Cantidad);
 
-                orden = new Orden(dtoCreateOrden.IdCuenta, activo.Nombre, dtoCreateOrden.Cantidad, activo.PrecioUnitarios,dtoCreateOrden.Operacion,0,total);
+                orden = new Orden(Or.CuentaId, activo.Ticker, Or.Cantidad,activo.PrecioUnitario, Or.Operacion, 0, total);
 
                 await _ordenRepository.AddOrdenAsync(orden, ct);
             }, ct);

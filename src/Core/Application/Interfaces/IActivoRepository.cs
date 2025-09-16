@@ -10,5 +10,6 @@ namespace Application.Interfaces
     public interface IActivoRepository
     {
         Activo findbyName(String nombre,CancellationToken ct);
+        Task<List<Activo>> findall(CancellationToken ct);
     }
 }

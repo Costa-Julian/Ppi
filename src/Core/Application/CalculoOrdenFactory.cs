@@ -12,7 +12,7 @@ namespace Application
     {
         private readonly List<ICalculoTotal> _strategies;
 
-        public CalculoOrdenFactory(List<ICalculoTotal> strategies)
+        public CalculoOrdenFactory(IEnumerable<ICalculoTotal> strategies)
         {
             _strategies = strategies.ToList();
         }

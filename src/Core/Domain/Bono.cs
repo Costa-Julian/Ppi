@@ -10,7 +10,12 @@ namespace Domain
     {
         private const Decimal _COMISION = 0.02m;
         private const Decimal _IMPUESTO = 0.21m;
-        public Bono(string ticker, string nombre, decimal precioUnitarios) : base(ticker, nombre, precioUnitarios)
+
+        public Bono()
+        {
+        }
+
+        public Bono(string ticker, string nombre, decimal PrecioUnitario) : base(ticker, nombre, PrecioUnitario)
         {
             this.TipoActivo = 2;
         }

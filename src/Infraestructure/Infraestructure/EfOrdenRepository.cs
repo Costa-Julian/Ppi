@@ -11,17 +11,23 @@ namespace Infraestructure
     public class EfOrdenRepository : IOrdenRepository
     {
         private readonly EfAppDbContext _dbContext;
+
+        public EfOrdenRepository(EfAppDbContext dbContext)
+        {
+            _dbContext = dbContext;
+        }
+
         public async Task AddOrdenAsync(Orden orden, CancellationToken ct) 
         { 
-            await _dbContext.ordens.AddAsync(orden, ct);
+            await _dbContext.Ordenes.AddAsync(orden, ct);
         }
         
-        public void DeleteOrden(Orden orden,CancellationToken ct) => _dbContext?.ordens.Remove(orden);
+        public void DeleteOrden(Orden orden,CancellationToken ct) => _dbContext?.Ordenes.Remove(orden);
 
  
         public void DeleteOrdenById(int id, CancellationToken ct)
         {
-           Orden orden = _dbContext?.ordens.FirstOrDefault(o => o.Id == id);
+           Orden orden = _dbContext?.Ordenes.FirstOrDefault(o => o.Id == id);
             if (orden != null) 
                 {
                     DeleteOrden(orden, ct); 
@@ -30,12 +36,12 @@ namespace Infraestructure
 
         public List<Orden> GetAll()
         {
-            return _dbContext.ordens.ToList();
+            return _dbContext.Ordenes.ToList();
         }
 
         public void UpdateOrden(Orden orden, CancellationToken ct )
         {
-            _dbContext.ordens.AddAsync(orden, ct);
+            _dbContext.Ordenes.AddAsync(orden, ct);
         }
     }
 }

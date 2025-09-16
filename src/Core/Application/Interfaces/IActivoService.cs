@@ -7,8 +7,10 @@ using System.Threading.Tasks;
 
 namespace Application.Interfaces
 {
-    internal interface IActivoService
+    public interface IActivoService
     {
         Activo GetByTickerAsync(String nombre,CancellationToken ct);
+        Task<List<Activo>> GetAll(CancellationToken ct);
+        
     }
 }

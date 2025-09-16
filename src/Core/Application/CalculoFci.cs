@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 
 namespace Application
 {
-    internal class CalculoFci : ICalculoTotal
+    public class CalculoFci : ICalculoTotal
     {
         public bool CanHandle(Activo activo) => activo is Fci;
         public decimal CalculoTotal(Activo activo, int cantidad)
         {
-           return activo.PrecioUnitarios * cantidad;
+           return activo.PrecioUnitario * cantidad;
         }
     }
 }

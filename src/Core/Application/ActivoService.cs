@@ -11,6 +11,14 @@ namespace Application
     public class ActivoService : IActivoService
     {
         private readonly IActivoRepository _repository;
+
+        public ActivoService(IActivoRepository repository)
+        {
+            _repository = repository;
+        }
+
+        public Task<List<Activo>> GetAll(CancellationToken ct) => _repository.findall(ct);
+
         public  Activo GetByTickerAsync(string nombre, CancellationToken ct)
         {
             return  _repository.findbyName(nombre,ct);

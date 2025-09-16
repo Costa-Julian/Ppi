@@ -8,7 +8,7 @@ namespace Application.Dto
 {
     public class DtoCreateOrden
     {
-        private int _IdCuenta;
+        private int _CuentaId;
         private String _NombreActivo;
         private int _Cantidad;
         private Nullable<Decimal> _Precio;
@@ -16,14 +16,14 @@ namespace Application.Dto
 
         public DtoCreateOrden(int idCuenta, string nombreActivo, int cantidad, char operacion)
         {
-            _IdCuenta = idCuenta;
+            _CuentaId = idCuenta;
             _NombreActivo = nombreActivo;
             _Cantidad = cantidad;
             _Precio = null;
             _Operacion = operacion;
         }
 
-        public int IdCuenta { get => _IdCuenta; set => _IdCuenta = value; }
+        public int IdCuenta { get => _CuentaId; set => _CuentaId = value; }
         public string NombreActivo { get => _NombreActivo; set => _NombreActivo = value; }
         public int Cantidad { get => _Cantidad; set => _Cantidad = value; }
         public Decimal Precio { get => (decimal)_Precio; set => _Precio = value; }
