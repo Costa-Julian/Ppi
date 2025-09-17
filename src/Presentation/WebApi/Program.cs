@@ -17,13 +17,15 @@ builder.Services.AddDbContext<EfAppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("SqlServerConnection")));
 
 //Repos
-builder.Services.AddScoped<IActivoRepository, EfActivoRepositoty>();
+builder.Services.AddScoped<IActivoRepository, EfActivoRepository>();
 builder.Services.AddScoped<IOrdenRepository, EfOrdenRepository>();
+builder.Services.AddScoped<IEstadoRepository, EfEstadoRepository>();
 builder.Services.AddScoped<IUnitOfWork, EfUnitOfWork>();
 
 //Servicios
 builder.Services.AddScoped<IActivoService,ActivoService>();
 builder.Services.AddScoped<IOrdenService, OrdenService>();
+builder.Services.AddScoped<IEstadoService,EstadoService>();
 builder.Services.AddScoped<ICalculoTotal,CalculoFci>();
 builder.Services.AddScoped<ICalculoTotal, CalculoBono>();
 builder.Services.AddScoped<ICalculoTotal, CalculoAccion>();

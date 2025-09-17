@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 
 namespace Infraestructure
 {
-    public class EfActivoRepositoty : IActivoRepository
+    public class EfActivoRepository : IActivoRepository
     {
         private readonly EfAppDbContext _dbContext;
 
-        public EfActivoRepositoty(EfAppDbContext dbContext)
+        public EfActivoRepository(EfAppDbContext dbContext)
         {
             _dbContext = dbContext;
         }

@@ -15,7 +15,7 @@
             _descripcionEstado = descripcionEstado;
         }
 
-        public string Nombre { get => _descripcionEstado; set => _descripcionEstado = value; }
+        public string DescripcionEstado { get => _descripcionEstado; set => _descripcionEstado = value; }
         public int Id { get => _id; set => _id = value; }
     }
 }

@@ -13,15 +13,17 @@ namespace Application
     {
         private readonly IOrdenRepository _ordenRepository;
         private readonly IActivoService _activoService;
+        private readonly IEstadoService _estadoService;
         private readonly CalculoOrdenFactory _calculatorFactory;
         private readonly IUnitOfWork _unitOfWork;
 
-        public OrdenService(IOrdenRepository ordenRepository, IActivoService activoService, CalculoOrdenFactory calculatorFactory, IUnitOfWork unitOfWork)
+        public OrdenService(IOrdenRepository ordenRepository, IActivoService activoService, CalculoOrdenFactory calculatorFactory, IUnitOfWork unitOfWork, IEstadoService estadoService)
         {
             _ordenRepository = ordenRepository;
             _activoService = activoService;
             _calculatorFactory = calculatorFactory;
             _unitOfWork = unitOfWork;
+            _estadoService = estadoService;
         }
 
         public  async Task<int> CreateOrderAsynck(OrdenRequest Or, CancellationToken ct)
@@ -44,6 +46,48 @@ namespace Application
             }, ct);
 
             return orden.Id;
+        }
+
+        public async Task<List<DtoOrdenResponse>> GetAll(CancellationToken ct)
+        {
+            List<DtoOrdenResponse> dtoOrdenResponses = new List<DtoOrdenResponse>();
+            List<Orden> ordens = new List<Orden>();
+
+            await _unitOfWork.ExecuteInTransactionAsync(async canelationToken =>
+            {
+                 ordens = _ordenRepository.GetAll();
+            }, ct);
+
+            foreach (var orden in ordens)
+            {
+                DtoOrdenResponse or = new DtoOrdenResponse(orden.CuentaId, orden.NombreActivo, orden.Cantidad,
+                    orden.Precio, orden.Operacion, _estadoService.Get(orden.EstadoId, ct).DescripcionEstado, orden.MontoTotal);
+                dtoOrdenResponses.Add(or);
+            }
+            return dtoOrdenResponses;
+        }
+
+        public Task<Orden> GetById(int id, CancellationToken ct)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task UpdateOrdenEstado(int id, int estadoid, CancellationToken ct)
+        {
+           await _unitOfWork.ExecuteInTransactionAsync(async ct2 =>
+            {
+                Estado estado = _estadoService.Get(estadoid, ct)
+                    ?? throw new ArgumentException("Estado inválido", nameof(estadoid));
+
+                Orden orden = _ordenRepository.FindById(id)
+                ?? throw new KeyNotFoundException("Orden no encontrada");
+
+                if (orden.EstadoId == estadoid)
+                    throw new InvalidOperationException(
+                        $"La orden {orden.Id} ya se encuentra en el estado solicitado (Estado= {estado.DescripcionEstado}); la operación no produce cambios.");
+                orden.EstadoId = estadoid;
+                 _ordenRepository.UpdateOrden(orden,ct2);
+            },ct);
         }
     }
 }

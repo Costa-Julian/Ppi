@@ -1,5 +1,6 @@
 ﻿using Application.Interfaces;
 using Domain;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,14 +35,19 @@ namespace Infraestructure
             }
         }
 
+        public Orden FindById(int id)
+        {
+            return _dbContext.Ordenes.Where(o => o.Id == id).FirstOrDefault();
+        }
+
         public List<Orden> GetAll()
         {
             return _dbContext.Ordenes.ToList();
         }
 
-        public void UpdateOrden(Orden orden, CancellationToken ct )
+        public void UpdateOrden(Orden orden,CancellationToken ct)
         {
-            _dbContext.Ordenes.AddAsync(orden, ct);
+            _dbContext.Ordenes.Update(orden);
         }
     }
 }

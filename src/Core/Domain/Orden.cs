@@ -14,7 +14,7 @@ namespace Domain
         private Int32 _cantidad;
         private Decimal _precio;
         private Char _operacion;
-        private Int16 _estadoId;
+        private Int32 _estadoId;
         private Decimal _montoTotal;
         private Activo activo;
         private Estado estado;
@@ -22,7 +22,7 @@ namespace Domain
        
         public Orden() { }
 
-        public Orden(int idCuenta, string nombreActivo, int cantidad, decimal precio, char operacion, short estadoId, decimal montoTotal)
+        public Orden(int idCuenta, string nombreActivo, int cantidad, decimal precio, char operacion, Int32 estadoId, decimal montoTotal)
         {
             _CuentaId = idCuenta;
             _nombreActivo = nombreActivo;
@@ -40,7 +40,7 @@ namespace Domain
         public int Cantidad { get => _cantidad; set => _cantidad = value; }
         public decimal Precio { get => _precio; set => _precio = value; }
         public char Operacion { get => _operacion; set => _operacion = value; }
-        public short EstadoId { get => _estadoId; set => _estadoId = value; }
         public decimal MontoTotal { get => _montoTotal; set => _montoTotal = value; }
+        public int EstadoId { get => _estadoId; set => _estadoId = value; }
     }
 }
