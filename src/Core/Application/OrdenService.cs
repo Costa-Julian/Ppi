@@ -43,9 +43,20 @@ namespace Application
                 orden = new Orden(Or.CuentaId, activo.Ticker, Or.Cantidad,activo.PrecioUnitario, Or.Operacion, 0, total);
 
                 await _ordenRepository.AddOrdenAsync(orden, ct);
+
             }, ct);
 
             return orden.Id;
+        }
+
+        public async Task DeleteOrden(int id, CancellationToken ct = default)
+        {
+            await _unitOfWork.ExecuteInTransactionAsync(async canceletionToken => 
+            {
+                var orden = _ordenRepository.FindById(id, ct);
+                if (orden is null) throw new KeyNotFoundException();
+                _ordenRepository.DeleteOrden(orden, ct);
+            }, ct);
         }
 
         public async Task<List<DtoOrdenResponse>> GetAll(CancellationToken ct)
@@ -67,9 +78,13 @@ namespace Application
             return dtoOrdenResponses;
         }
 
-        public Task<Orden> GetById(int id, CancellationToken ct)
+        public Task<DtoOrdenResponse> GetById(int id, CancellationToken ct)
         {
-            throw new NotImplementedException();
+            var orden = _ordenRepository.FindById(id, ct);
+            if (orden is null) throw new KeyNotFoundException();
+            DtoOrdenResponse ordenRequest = new DtoOrdenResponse(orden.CuentaId, orden.NombreActivo, orden.Cantidad,
+                    orden.Precio, orden.Operacion, _estadoService.Get(orden.EstadoId, ct).DescripcionEstado, orden.MontoTotal);
+            return  Task.FromResult(ordenRequest);
         }
 
         public async Task UpdateOrdenEstado(int id, int estadoid, CancellationToken ct)

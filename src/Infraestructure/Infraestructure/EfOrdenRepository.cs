@@ -35,7 +35,7 @@ namespace Infraestructure
             }
         }
 
-        public Orden FindById(int id)
+        public Orden FindById(int id,CancellationToken ct)
         {
             return _dbContext.Ordenes.Where(o => o.Id == id).FirstOrDefault();
         }

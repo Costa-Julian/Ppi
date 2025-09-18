@@ -11,7 +11,7 @@ namespace Application.Interfaces
     public interface IOrdenRepository
     {
         List<Orden> GetAll();
-        Orden FindById(int id);
+        Orden FindById(int id, CancellationToken ct = default);
         Task AddOrdenAsync(Orden orden,CancellationToken ct);
         void UpdateOrden(Orden orden, CancellationToken ct = default);
         void DeleteOrden(Orden orden, CancellationToken ct);
