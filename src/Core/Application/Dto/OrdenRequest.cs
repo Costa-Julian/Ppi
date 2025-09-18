@@ -27,5 +27,14 @@ namespace Application.Dto
         /// <summary>Requerido para Bono/FCI; nulo para Acción.</summary>
         /// <example>102.75</example>
         public decimal? Precio { get; set; }
+
+        public OrdenRequest(int cuentaId, string nombreActivo, char operacion, int cantidad, decimal? precio)
+        {
+            CuentaId = cuentaId;
+            NombreActivo = nombreActivo;
+            Operacion = operacion;
+            Cantidad = cantidad;
+            Precio = precio;
+        }
     }
 }

@@ -44,9 +44,9 @@ builder.Services.AddScoped<IUnitOfWork, EfUnitOfWork>();
 builder.Services.AddScoped<IActivoService,ActivoService>();
 builder.Services.AddScoped<IOrdenService, OrdenService>();
 builder.Services.AddScoped<IEstadoService,EstadoService>();
-builder.Services.AddScoped<ICalculoTotal,CalculoFci>();
-builder.Services.AddScoped<ICalculoTotal, CalculoBono>();
-builder.Services.AddScoped<ICalculoTotal, CalculoAccion>();
+builder.Services.AddScoped<ICalculoTotal,CalculoFciHandler>();
+builder.Services.AddScoped<ICalculoTotal, CalculoBonoHandler>();
+builder.Services.AddScoped<ICalculoTotal, CalculoAccionHandler>();
 builder.Services.AddScoped<CalculoOrdenFactory>();
 
 var app = builder.Build();

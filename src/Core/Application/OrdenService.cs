@@ -26,7 +26,7 @@ namespace Application
             _estadoService = estadoService;
         }
 
-        public  async Task<int> CreateOrderAsynck(OrdenRequest Or, CancellationToken ct)
+        public  async Task<int> CreateOrderAsync(OrdenRequest Or, CancellationToken ct)
         {
             Orden? orden = null;
 

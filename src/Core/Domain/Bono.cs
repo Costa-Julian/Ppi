@@ -8,7 +8,7 @@ namespace Domain
 {
     public class Bono : Activo
     {
-        private const Decimal _COMISION = 0.02m;
+        private const Decimal _COMISION = 0.002m;
         private const Decimal _IMPUESTO = 0.21m;
 
         public Bono()

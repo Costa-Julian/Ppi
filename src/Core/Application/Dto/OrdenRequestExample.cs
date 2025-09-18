@@ -10,13 +10,13 @@ namespace Application.Dto
 {
     public class OrdenRequestExample : IExamplesProvider<OrdenRequest>
     {
-        public OrdenRequest GetExamples() => new()
-        {
-            CuentaId = 123,
-            NombreActivo = "ABCD",
-            Operacion = Char.Parse("C"),
-            Cantidad = 5,
-            Precio = null 
-        };
+        public OrdenRequest GetExamples() => new
+        (
+            cuentaId: 123,
+            nombreActivo: "ABCD",
+            operacion: Char.Parse("C"),
+            cantidad: 5,
+            precio: null
+        );
     }
 }

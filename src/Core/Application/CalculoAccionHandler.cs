@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Application
 {
-    public class CalculoAccion : ICalculoTotal
+    public class CalculoAccionHandler : ICalculoTotal
     {
         public bool CanHandle(Activo activo) => activo is Accion;
         public decimal CalculoTotal(Activo activo, int cantidad)

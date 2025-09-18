@@ -10,7 +10,7 @@ namespace Application.Interfaces
 {
     public interface IOrdenService
     {
-        Task<int> CreateOrderAsynck(OrdenRequest Or, CancellationToken ct);
+        Task<int> CreateOrderAsync(OrdenRequest Or, CancellationToken ct);
         Task<List<DtoOrdenResponse>> GetAll(CancellationToken ct);
         Task<DtoOrdenResponse> GetById(int id, CancellationToken ct);
         Task UpdateOrdenEstado(int id, int estado, CancellationToken ct);

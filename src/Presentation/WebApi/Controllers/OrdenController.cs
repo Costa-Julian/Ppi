@@ -52,7 +52,7 @@ namespace WebApi.Controllers
             if (!ModelState.IsValid) return ValidationProblem(ModelState);
             try 
             {
-                var id = await _ordenService.CreateOrderAsynck(request, ct);
+                var id = await _ordenService.CreateOrderAsync(request, ct);
                 return CreatedAtRoute("Orden", new { id }, new IdResponse(id));
             }
             catch(KeyNotFoundException ex)
@@ -110,8 +110,6 @@ namespace WebApi.Controllers
             {
                 return Conflict(Problem(title: "Conflicto de estado", detail: ex.Message));
             }
-            await _ordenService.UpdateOrdenEstado(id, body.estadoId, ct);
-            return NoContent(); 
         }
 
         /// <summary>Elimina una orden por Id.</summary>
