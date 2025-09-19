@@ -112,6 +112,7 @@ Cobertura esperada:
 
 - ASP.NET Core 8
 - Entity Framework Core 8
+- SqlServer / Sqlite 
 - Patrón Strategy para cálculos y Unit of Work para persistencia
 - Swashbuckle.AspNetCore
 - xUnit, FluentAssertions, Moq/NSubstitute 
