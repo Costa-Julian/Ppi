@@ -2,6 +2,7 @@ using Application;
 using Application.Dto;
 using Application.Interfaces;
 using Infraestructure;
+using Infraestructure.Seeds;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.OpenApi.Models;
@@ -30,9 +31,20 @@ builder.Services.AddSwaggerGen(c =>
 });
 builder.Services.AddSwaggerExamplesFromAssemblyOf<OrdenRequestExample>();
 
-//Conexion con sql server
-builder.Services.AddDbContext<EfAppDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("SqlServerConnection")));
+//Conexion con db
+//builder.Services.AddDbContext<EfAppDbContext>(options =>
+//    options.UseSqlServer(builder.Configuration.GetConnectionString("SqlServerConnection")));
+var provider = builder.Configuration.GetValue<string>("Database:Provider")??"SqlServer";
+
+if (provider.Equals("Sqlite",StringComparison.OrdinalIgnoreCase))
+{
+    builder.Services.AddDbContext<EfAppDbContext>(options =>
+        options.UseSqlite(builder.Configuration.GetConnectionString("SqliteConnection")));
+}else
+{
+    builder.Services.AddDbContext<EfAppDbContext>(options =>
+        options.UseSqlServer(builder.Configuration.GetConnectionString("SqlServerConnection")));
+}
 
 //Repos
 builder.Services.AddScoped<IActivoRepository, EfActivoRepository>();
@@ -49,10 +61,36 @@ builder.Services.AddScoped<ICalculoTotal, CalculoBonoHandler>();
 builder.Services.AddScoped<ICalculoTotal, CalculoAccionHandler>();
 builder.Services.AddScoped<CalculoOrdenFactory>();
 
+// Seeder
+builder.Services.AddScoped<DataSeeder>();
+
 var app = builder.Build();
 
-// Swagger config
-app.UseSwagger();
+using (var scope = app.Services.CreateScope()) 
+{ 
+    var services = scope.ServiceProvider;
+    var db = services.GetRequiredService<EfAppDbContext>();
+    var cfg = services.GetRequiredService<IConfiguration>();
+    var env = services.GetRequiredService<IWebHostEnvironment>();
+    if (provider.Equals("Sqlite", StringComparison.OrdinalIgnoreCase)) 
+    {
+        var pending = (await db.Database.GetPendingMigrationsAsync()).Any();
+        if (pending)
+            await db.Database.MigrateAsync();
+        else
+            await db.Database.EnsureCreatedAsync();
+
+        if (cfg.GetValue<bool>("Seed:Enabled"))
+        {
+            var seeder = services.GetRequiredService<DataSeeder>();
+            await seeder.SeedAsync(env.ContentRootPath, CancellationToken.None);
+        }
+    }
+
+}
+
+    // Swagger config
+    app.UseSwagger();
 app.UseSwaggerUI(c =>
 {
     c.SwaggerEndpoint("/swagger/v1/swagger.json", "PPI .net challenge v1");

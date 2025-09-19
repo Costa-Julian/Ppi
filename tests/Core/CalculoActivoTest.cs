@@ -27,7 +27,6 @@ namespace Core
         [Test]
         public void CalculoTotal_FCI_MismoPrecioYCantidad_SinComisionNiIva()
         {
-            // Arrange
             const decimal precio = 10000m;
             const int cantidad = 10;
             var fci = new Fci { PrecioUnitario = precio };

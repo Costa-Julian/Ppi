@@ -59,9 +59,9 @@ namespace Application
             }, ct);
         }
 
-        public async Task<List<DtoOrdenResponse>> GetAll(CancellationToken ct)
+        public async Task<List<OrdenResponseDto>> GetAll(CancellationToken ct)
         {
-            List<DtoOrdenResponse> dtoOrdenResponses = new List<DtoOrdenResponse>();
+            List<OrdenResponseDto> dtoOrdenResponses = new List<OrdenResponseDto>();
             List<Orden> ordens = new List<Orden>();
 
             await _unitOfWork.ExecuteInTransactionAsync(async canelationToken =>
@@ -71,18 +71,18 @@ namespace Application
 
             foreach (var orden in ordens)
             {
-                DtoOrdenResponse or = new DtoOrdenResponse(orden.CuentaId, orden.NombreActivo, orden.Cantidad,
+                OrdenResponseDto or = new OrdenResponseDto(orden.CuentaId, orden.NombreActivo, orden.Cantidad,
                     orden.Precio, orden.Operacion, _estadoService.Get(orden.EstadoId, ct).DescripcionEstado, orden.MontoTotal);
                 dtoOrdenResponses.Add(or);
             }
             return dtoOrdenResponses;
         }
 
-        public Task<DtoOrdenResponse> GetById(int id, CancellationToken ct)
+        public Task<OrdenResponseDto> GetById(int id, CancellationToken ct)
         {
             var orden = _ordenRepository.FindById(id, ct);
             if (orden is null) throw new KeyNotFoundException();
-            DtoOrdenResponse ordenRequest = new DtoOrdenResponse(orden.CuentaId, orden.NombreActivo, orden.Cantidad,
+            OrdenResponseDto ordenRequest = new OrdenResponseDto(orden.CuentaId, orden.NombreActivo, orden.Cantidad,
                     orden.Precio, orden.Operacion, _estadoService.Get(orden.EstadoId, ct).DescripcionEstado, orden.MontoTotal);
             return  Task.FromResult(ordenRequest);
         }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Application.Dto
 {
-    public class DtoOrdenResponse
+    public class OrdenResponseDto
     {
         private Int32 cuentaId;
         private String nombreActivo;
@@ -16,7 +16,7 @@ namespace Application.Dto
         private String estado;
         private Decimal montoTotal;
 
-        public DtoOrdenResponse(int cuentaId, string nombreActivo, int cantidad, decimal precio, char operacion, string estado, decimal montoTotal)
+        public OrdenResponseDto(int cuentaId, string nombreActivo, int cantidad, decimal precio, char operacion, string estado, decimal montoTotal)
         {
             CuentaId = cuentaId;
             NombreActivo = nombreActivo;

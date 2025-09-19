@@ -26,10 +26,10 @@ namespace WebApi.Controllers
         /// orden/{id} Devuelve orden por id
         /// </summary>
         [HttpGet("{id:int}", Name = "Orden")]
-        [ProducesResponseType(typeof(DtoOrdenResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(OrdenResponseDto), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [SwaggerOperation(Summary ="Listar ordener por id",OperationId ="OrdenById")]
-        public async Task<ActionResult<DtoOrdenResponse>> GetById(int id, CancellationToken ct)
+        public async Task<ActionResult<OrdenResponseDto>> GetById(int id, CancellationToken ct)
         {
             var dto = await _ordenService.GetById(id, ct);
             return dto is null ? NotFound() : Ok(dto);
@@ -66,7 +66,7 @@ namespace WebApi.Controllers
         }
         /// <summary>Devuelve todas las órdenes.</summary>
         [HttpGet ("~/Orden")] 
-        [ProducesResponseType(typeof(List<DtoOrdenResponse>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(List<OrdenResponseDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [SwaggerOperation(Summary = "Obtener totas las ordenes.", OperationId = "GetAllOrden")]
         public async Task<IActionResult> GetAll(CancellationToken ct)

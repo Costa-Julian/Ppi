@@ -11,8 +11,8 @@ namespace Application.Interfaces
     public interface IOrdenService
     {
         Task<int> CreateOrderAsync(OrdenRequest Or, CancellationToken ct);
-        Task<List<DtoOrdenResponse>> GetAll(CancellationToken ct);
-        Task<DtoOrdenResponse> GetById(int id, CancellationToken ct);
+        Task<List<OrdenResponseDto>> GetAll(CancellationToken ct);
+        Task<OrdenResponseDto> GetById(int id, CancellationToken ct);
         Task UpdateOrdenEstado(int id, int estado, CancellationToken ct);
         Task DeleteOrden(int id, CancellationToken ct = default);
     }

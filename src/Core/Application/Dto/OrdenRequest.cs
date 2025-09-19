@@ -21,6 +21,7 @@ namespace Application.Dto
         [Required,StringLength(32)]public string NombreActivo { get; set; }
         /// <summary>'C' compra, 'V' venta.</summary>
         /// <example>C</example>
+        /// [RegularExpression("(?i)^[cv]$", ErrorMessage = "Operacion debe ser 'C' o 'V'.")]
         [Required]public char Operacion { get; set; }
         /// <example>5</example>
         [Required, Range(1,int.MaxValue)] public int Cantidad { get; set; }

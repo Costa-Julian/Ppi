@@ -1,0 +1,20 @@
+[
+  {
+    "ticker": "AAPL",
+    "nombre": "Apple Inc.",
+    "tipoActivoId": 1,
+    "precioUnitario": 0.0
+  },
+  {
+    "ticker": "AL30",
+    "nombre": "Bono AL30",
+    "tipoActivoId": 2,
+    "precioUnitario": 100.25
+  },
+  {
+    "ticker": "FONDEE",
+    "nombre": "Fondo EE",
+    "tipoActivoId": 3,
+    "precioUnitario": 10.0
+  }
+]

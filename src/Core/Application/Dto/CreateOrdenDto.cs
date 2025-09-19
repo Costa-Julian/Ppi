@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Application.Dto
 {
-    public class DtoCreateOrden
+    public class CreateOrdenDto
     {
         private int _CuentaId;
         private String _NombreActivo;
@@ -14,7 +14,7 @@ namespace Application.Dto
         private Nullable<Decimal> _Precio;
         private Char _Operacion;
 
-        public DtoCreateOrden(int idCuenta, string nombreActivo, int cantidad, char operacion)
+        public CreateOrdenDto(int idCuenta, string nombreActivo, int cantidad, char operacion)
         {
             _CuentaId = idCuenta;
             _NombreActivo = nombreActivo;

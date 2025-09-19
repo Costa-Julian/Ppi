@@ -44,15 +44,6 @@ namespace Infraestructure
              .HasValue<Accion>(1)
              .HasValue<Bono>(2)
              .HasValue<Fci>(3);
-            //o.HasOne(x => x.Activo)
-            // .WithMany()             
-            // .HasForeignKey(x => x.Ticker)
-            // .OnDelete(DeleteBehavior.Restrict);
-
-            //o.HasOne(x => x.Estado)
-            //  .WithMany()
-            // .HasForeignKey(x => x.EstadoId)
-            // .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

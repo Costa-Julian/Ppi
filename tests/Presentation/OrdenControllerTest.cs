@@ -31,13 +31,10 @@ namespace Presentation
                 _ct = CancellationToken.None;
             }
 
-            // --------------------
-            // GET /orden/{id}
-            // --------------------
             [Test]
             public async Task GetById_Existente_Retorna200OkConDto()
             {
-                var dto = new DtoOrdenResponse(
+                var dto = new OrdenResponseDto(
                     cuentaId: 1, nombreActivo: "GGAL", operacion: 'C',
                     cantidad: 5, precio: 100m, montoTotal: 500m, estado: "Ejecutado");
 
@@ -56,7 +53,7 @@ namespace Presentation
             [Test]
             public async Task GetById_Inexistente_Retorna404()
             {
-                _ordenService.Setup(s => s.GetById(999, _ct)).ReturnsAsync((DtoOrdenResponse?)null);
+                _ordenService.Setup(s => s.GetById(999, _ct)).ReturnsAsync((OrdenResponseDto?)null);
 
                 var action = await _sut.GetById(999, _ct);
 
@@ -64,9 +61,6 @@ namespace Presentation
                 _ordenService.VerifyAll();
             }
 
-            // --------------------
-            // POST ~/Orden
-            // --------------------
             [Test]
             public async Task InsertNewOrden_ModelStateInvalido_Retorna422ValidationProblem()
             {
@@ -156,13 +150,11 @@ namespace Presentation
 
             _ordenService.VerifyAll();
         }
-        // --------------------
-        // GET ~/Orden
-        // --------------------
+
         [Test]
             public async Task GetAll_SinElementos_Retorna204()
             {
-                _ordenService.Setup(s => s.GetAll(_ct)).ReturnsAsync(new List<DtoOrdenResponse>());
+                _ordenService.Setup(s => s.GetAll(_ct)).ReturnsAsync(new List<OrdenResponseDto>());
 
                 var result = await _sut.GetAll(_ct);
 
@@ -173,7 +165,7 @@ namespace Presentation
             [Test]
             public async Task GetAll_ConElementos_Retorna200Ok()
             {
-                var list = new List<DtoOrdenResponse>
+                var list = new List<OrdenResponseDto>
             {
                 new( cuentaId: 1, nombreActivo: "ALUA", operacion: 'C', cantidad: 10, precio: 1.23m, montoTotal: 12.3m, estado: "Ejecutado")
             };
@@ -189,9 +181,6 @@ namespace Presentation
                 _ordenService.VerifyAll();
             }
 
-            // --------------------
-            // PUT ~/Orden/{id}/estado
-            // --------------------
             [Test]
             public async Task SetEstado_Exitoso_Retorna204()
             {
@@ -260,9 +249,6 @@ namespace Presentation
                 _ordenService.VerifyAll();
             }
 
-            // --------------------
-            // DELETE /orden/{id}
-            // --------------------
             [Test]
             public async Task Delete_Exitoso_Retorna204()
             {
