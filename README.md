@@ -63,7 +63,7 @@ dotnet run --project src/Presentation/WebApi/WebApi.csproj
 
 ## Documentación (Swagger)
 
-- UI: /swagger
+- UI: /swagger/index.html 
 
 - JSON: /swagger/v1/swagger.json 
 
