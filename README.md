@@ -29,7 +29,13 @@ dotnet restore
 dotnet build
 dotnet run --project src/Presentation/WebApi/WebApi.csproj
 ```
-- **~/swagger/index.html** para visualizar swagger y los endpoints. 
+- **~/swagger/index.html** para visualizar swagger y los endpoints.
+- Actualmente esta configurado para funcionar con Sqlite, poses los estados precargados, y 3 activos de ejemplo, para poder realizar ordenes sin tener que instanciar una base sql.
+- En caso de contar con una base sqlServer con las entidades correspondiente, solo resta modificar appSettings.
+  ```bash
+     -- SqlServerConnection --> informacion de la base de datos.
+     -- Provider --> cambiar a 'SqlServer'
+  ```
 ## Funcionalidad de dominio
 
 
@@ -110,5 +116,3 @@ Cobertura esperada:
 - Swashbuckle.AspNetCore
 - xUnit, FluentAssertions, Moq/NSubstitute 
 
-
-```bash
