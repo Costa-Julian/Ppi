@@ -29,7 +29,7 @@ dotnet restore
 dotnet build
 dotnet run --project src/Presentation/WebApi/WebApi.csproj
 ```
-
+- **~/swagger/index.html** para visualizar swagger y los endpoints. 
 ## Funcionalidad de dominio
 
 
