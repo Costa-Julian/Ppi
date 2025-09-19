@@ -27,11 +27,5 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Core\Application\Application.csproj" />
-  </ItemGroup>
-	<ItemGroup>
-		<None Update="Seeds\*.json">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-	</ItemGroup>
-	
+  </ItemGroup>	
 </Project>
