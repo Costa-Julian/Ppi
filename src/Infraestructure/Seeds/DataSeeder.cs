@@ -23,14 +23,13 @@ namespace Infraestructure.Seeds
         }
         public async Task SeedAsync(string contentRootPath, CancellationToken ct)
         {
-            // contentRootPath = ...\src\Presentation\WebApi
             var content = new DirectoryInfo(contentRootPath);
-            var presentationDir = content.Parent;          // ...\src\Presentation
-            var srcDir = presentationDir?.Parent; // ...\src
+            var presentationDir = content.Parent; 
+            var srcDir = presentationDir?.Parent; 
 
             var seedsDir = (srcDir is null)
                 ? Path.Combine(contentRootPath, "src", "Infrastructure", "Seeds")
-                : Path.Combine(srcDir.FullName, "Infrastructure", "Seeds");
+                : Path.Combine(srcDir.FullName, "Infraestructure", "Seeds");
 
             seedsDir = Path.GetFullPath(seedsDir);
             _log.LogInformation("Seeds directory: {dir}", seedsDir);
@@ -52,15 +51,10 @@ namespace Infraestructure.Seeds
             else
                 _log.LogWarning("{label} seed NOT FOUND at: {path}", label, path);
         }
-
-        //public async Task SeedAsync(string contentRootPath, CancellationToken ct)
-        //{
-        //    await SeedEstadosAsync(contentRootPath, ct);
-        //    await SeedActivosAsync(contentRootPath, ct);
-        //}
         private async Task SeedEstadosAsync(string root, CancellationToken ct)
         {
-            var path = Path.Combine(root, "src", "Infrastructure", "Seeds", "estados.json");
+            await _db.Estados.ExecuteDeleteAsync(ct);
+            var path = Path.Combine(root);
             if (!File.Exists(path)) { _log.LogWarning("Seed file not found: {path}", path); return; }
 
             var estados = JsonSerializer.Deserialize<List<EstadoDto>>(
@@ -72,7 +66,7 @@ namespace Infraestructure.Seeds
             {
                 var entity = await _db.Estados.FirstOrDefaultAsync(x => x.Id == e.Id, ct);
                 if (entity == null)
-                    _db.Estados.Add(new Estado { Id = e.Id, DescripcionEstado = e.Nombre ?? "" });
+                    _db.Estados.AddAsync(new Estado { Id = e.Id, DescripcionEstado = e.Nombre ?? "" });
                 else
                     entity.DescripcionEstado = e.Nombre ?? entity.DescripcionEstado;
             }
@@ -81,7 +75,8 @@ namespace Infraestructure.Seeds
         }
         private async Task SeedActivosAsync(string root, CancellationToken ct)
         {
-            var path = Path.Combine(root, "src", "Infrastructure", "Seeds", "activos.json");
+            await _db.Activos.ExecuteDeleteAsync(ct);
+            var path = Path.Combine(root);
             if (!File.Exists(path)) { _log.LogWarning("Seed file not found: {path}", path); return; }
 
             var activos = JsonSerializer.Deserialize<List<ActivoDto>>(

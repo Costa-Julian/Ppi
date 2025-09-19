@@ -74,6 +74,10 @@ using (var scope = app.Services.CreateScope())
     var env = services.GetRequiredService<IWebHostEnvironment>();
     if (provider.Equals("Sqlite", StringComparison.OrdinalIgnoreCase)) 
     {
+        if (cfg.GetValue<bool>("DatabaseResetOnStart"))
+        {
+            await db.Database.EnsureDeletedAsync();
+        }
         var pending = (await db.Database.GetPendingMigrationsAsync()).Any();
         if (pending)
             await db.Database.MigrateAsync();
@@ -88,7 +92,6 @@ using (var scope = app.Services.CreateScope())
     }
 
 }
-
     // Swagger config
     app.UseSwagger();
 app.UseSwaggerUI(c =>

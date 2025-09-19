@@ -3,7 +3,7 @@
     "ticker": "AAPL",
     "nombre": "Apple Inc.",
     "tipoActivoId": 1,
-    "precioUnitario": 0.0
+    "precioUnitario": 256.0
   },
   {
     "ticker": "AL30",

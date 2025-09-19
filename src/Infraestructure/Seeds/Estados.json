@@ -1,0 +1,14 @@
+[
+  {
+    "Id": 0,
+    "Nombre": "En Proceso"
+  },
+  {
+    "Id": 1,
+    "Nombre": "Ejecutada"
+  },
+  {
+    "Id": 2,
+    "Nombre": "Cancelada"
+  }
+]

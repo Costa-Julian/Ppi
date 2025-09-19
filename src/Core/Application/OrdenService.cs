@@ -36,7 +36,12 @@ namespace Application
                 ?? throw new KeyNotFoundException("Activo no encontrado");
                 var modoCalculoTotal = _calculatorFactory.Resolve(activo);
 
-                if (activo.TipoActivo != 1) { activo.PrecioUnitario = (decimal)Or.Precio; }
+                if (activo.TipoActivo != 1) 
+                {
+                    if (Or.Precio is null)
+                        throw new ArgumentException("precio obligatorio", nameof(Or.Precio));
+                    activo.PrecioUnitario = (decimal)Or.Precio; 
+                }
 
                 var total = modoCalculoTotal.CalculoTotal(activo, Or.Cantidad);
 
@@ -71,8 +76,10 @@ namespace Application
 
             foreach (var orden in ordens)
             {
+                Estado estado = _estadoService.Get(orden.EstadoId, ct)
+                    ?? throw new KeyNotFoundException("Estado no valido"); ;
                 OrdenResponseDto or = new OrdenResponseDto(orden.CuentaId, orden.NombreActivo, orden.Cantidad,
-                    orden.Precio, orden.Operacion, _estadoService.Get(orden.EstadoId, ct).DescripcionEstado, orden.MontoTotal);
+                    orden.Precio, orden.Operacion, estado.DescripcionEstado, orden.MontoTotal);
                 dtoOrdenResponses.Add(or);
             }
             return dtoOrdenResponses;

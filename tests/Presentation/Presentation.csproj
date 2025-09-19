@@ -23,7 +23,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Core\Application\Application.csproj" />
-    <ProjectReference Include="..\..\src\Infraestructure\Infraestructure\Infraestructure.csproj" />
+    <ProjectReference Include="..\..\src\Infraestructure\Infraestructure.csproj" />
     <ProjectReference Include="..\..\src\Presentation\WebApi\WebApi.csproj" />
   </ItemGroup>
 

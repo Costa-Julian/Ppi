@@ -22,7 +22,13 @@ namespace Infraestructure
             o.HasKey(x => x.Id);
             o.Property(x => x.Id).ValueGeneratedOnAdd();
 
-            modelBuilder.Entity<Estado>().ToTable("Estados");
+            modelBuilder.Entity<Estado>(b =>
+            {
+                b.ToTable("Estados");
+                b.Property(e => e.Id).ValueGeneratedNever();
+            }
+            );
+
 
             var a = modelBuilder.Entity<Activo>();
             a.ToTable("Activos");
